@@ -24,7 +24,12 @@ public class DictionaryController {
     @GetMapping("/wordExistInDictionary")
     public ResponseEntity<?> wordExistInDictionary(@RequestParam String word) {
         try {
-            return new ResponseEntity<>(dictionaryService.wordExistInDictionary(word.toLowerCase()),HttpStatus.OK);
+            if(null != dictionaryService.wordExistInDictionary(word.toLowerCase())) {
+                return new ResponseEntity<>("Word exist in dictionary",HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("Word does not exist in dictionary",HttpStatus.OK);
+            }
+
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
