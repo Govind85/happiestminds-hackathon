@@ -94,7 +94,26 @@ public class DictionaryApplicationTests {
         // when + then
         this.mockMvc.perform(get("/api/dictionary/wordExistInDictionary?word=hello"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.word", Is.is(words.get(1).getWord())));
+                .andExpect(jsonPath("$", Is.is("Word exists in dictionary")));
+    }
+    @Test
+    public void wordDoesNotExistInDictionaryTest() throws Exception {
+        // given
+        Dictionary dictionary = new Dictionary();
+        dictionary.setWordId(1L);
+        dictionary.setWord("Hi");
+        List<Dictionary> words = new ArrayList<>();
+        words.add(dictionary);
+        Dictionary dictionary1 = new Dictionary();
+        dictionary1.setWordId(2L);
+        dictionary1.setWord("Hello");
+        words.add(dictionary1);
+        given(dictionaryService.wordExistInDictionary("hello")).willReturn(words.get(1));
+
+        // when + then
+        this.mockMvc.perform(get("/api/dictionary/wordExistInDictionary?word=help"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", Is.is("Word does not exist in dictionary")));
     }
     @Test
     public void saveWordInDictionaryBadRequestTest() throws Exception {

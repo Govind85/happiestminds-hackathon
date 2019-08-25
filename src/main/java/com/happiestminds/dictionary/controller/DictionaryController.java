@@ -25,7 +25,7 @@ public class DictionaryController {
     public ResponseEntity<?> wordExistInDictionary(@RequestParam String word) {
         try {
             if(null != dictionaryService.wordExistInDictionary(word.toLowerCase())) {
-                return new ResponseEntity<>("Word exist in dictionary",HttpStatus.OK);
+                return new ResponseEntity<>("Word exists in dictionary",HttpStatus.OK);
             } else {
                 return new ResponseEntity<>("Word does not exist in dictionary",HttpStatus.OK);
             }
